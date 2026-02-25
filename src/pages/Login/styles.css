@@ -1,0 +1,58 @@
+/* Zerar margens padrão que podem atrapalhar a centralização */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.login-container {
+  height: 100vh;
+  width: 100vw; /* Garante que ocupe toda a largura */
+  display: flex;
+  justify-content: center; /* Centraliza na horizontal */
+  align-items: center;     /* Centraliza na vertical */
+  background-color: #ffffff; /* Fundo totalmente BRANCO */
+}
+
+.login-box {
+  background-color: #1a5f96; /* Azul do Figma */
+  padding: 150px;
+  border-radius: 8px;
+  text-align: center;
+  color: white;
+  width: 800px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.1); /* Sombra um pouco mais suave */
+}
+
+.logo {
+  width: 90px;
+  margin-top: 0px;
+  /* Se a imagem do logo tiver fundo próprio, você pode usar:
+     filter: brightness(0) invert(1); se quiser o logo branco */
+}
+
+.input-group input {
+  width: 100%;
+  padding: 12px;
+  margin: 10px 0;
+  border-radius: 4px;
+  border: 1px solid #ddd; /* Um contorno leve para os inputs */
+  outline: none;
+}
+
+.btn-entrar {
+  width: 100%;      
+  padding: 12px;
+  background-color: #0d3b66;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+  margin-top: 15px;
+  transition: background 0.3s;
+}
+
+.btn-entrar:hover {
+  background-color: #051e36;
+}
