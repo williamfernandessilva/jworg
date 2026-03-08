@@ -20,12 +20,12 @@
   border-radius: 8px;
   text-align: center;
   color: white;
-  width: 800px;
+  width: 900px;
   box-shadow: 0 10px 25px rgba(0,0,0,0.1); /* Sombra um pouco mais suave */
 }
 
 .logo {
-  width: 90px;
+  width: 100px;
   margin-top: 0px;
   /* Se a imagem do logo tiver fundo próprio, você pode usar:
      filter: brightness(0) invert(1); se quiser o logo branco */
@@ -33,15 +33,24 @@
 
 .input-group input {
   width: 100%;
+  height: 60px;
   padding: 12px;
   margin: 10px 0;
   border-radius: 4px;
   border: 1px solid #ddd; /* Um contorno leve para os inputs */
   outline: none;
 }
+.senha{
 
+  font-size: 20px;
+}
+.email{
+
+  font-size: 20px;
+}
 .btn-entrar {
-  width: 100%;      
+  width:  450px;  
+  height: 60px;    
   padding: 12px;
   background-color: #0d3b66;
   color: white;

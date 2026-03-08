@@ -5,29 +5,32 @@ import './styles.css';
 
 function Header() {
   const navigate = useNavigate();
-  // Pegamos o nome do usuário que salvamos no login (opcional por enquanto)
-  const nomeUsuario = localStorage.getItem('usuarioNome') || "Irmão";
+  
+  // Buscamos o nome real que foi salvo no localStorage durante o login
+  const nomeExibicao = localStorage.getItem('nomeUsuario') || "Usuário";
 
   const handleLogout = () => {
-    localStorage.removeItem('usuarioNome'); // Limpa os dados
-    navigate('/'); // Volta para o login
+    // Limpa os dados de sessão para segurança
+    localStorage.removeItem('nomeUsuario'); 
+    // Opcional: limpe tokens ou outros dados se houver
+    navigate('/'); 
   };
 
   return (
     <header className="main-header">
-    <div className="header-content">
-  {/* Lado Esquerdo */}
-  <div className="logo-section">
-    <img src={logoImg} alt="JW.ORG" />
-    <span>JW.ORG - Territórios</span>
-  </div>
+      <div className="header-content">
+        {/* Lado Esquerdo */}
+        <div className="logo-section">
+          <img src={logoImg} alt="JW.ORG" />
+          <span className="logo-text">JW.ORG - Territórios</span>
+        </div>
 
-  {/* Lado Direito */}
-  <div className="user-section">
-    <p>Olá, <strong>{nomeUsuario}</strong></p>
-    <button onClick={handleLogout} className="btn-logout">Sair</button>
-  </div>
-</div>
+        {/* Lado Direito */}
+        <div className="user-section">
+          <span className="welcome-text">Olá, <strong>{nomeExibicao}</strong></span>
+          <button onClick={handleLogout} className="btn-logout">Sair</button>
+        </div>
+      </div>
     </header>
   );
 }

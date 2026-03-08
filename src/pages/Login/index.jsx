@@ -31,6 +31,7 @@ function Login() {
       } else {
         alert(data.message || "Erro ao logar");
       }
+      localStorage.setItem("nomeUsuario", data.nome);
     } catch (error) {
       console.error("Erro na conexão:", error);
       alert("O servidor está desligado ou houve um erro de rede.");
@@ -45,7 +46,7 @@ function Login() {
         <h1>JW . ORG</h1>
         <form onSubmit={handleLogin}>
           <div className="input-group">
-            <input 
+            <input className='email'
               type="email" 
               placeholder="E-mail" 
               value={email}
@@ -54,7 +55,7 @@ function Login() {
             />
           </div>
           <div className="input-group">
-            <input 
+            <input className='senha'
               type="password" 
               placeholder="Senha" 
               value={senha}
