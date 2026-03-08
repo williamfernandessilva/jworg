@@ -27,7 +27,7 @@ function Login() {
 
       if (response.ok) {
         alert("Bem-vindo, " + data.nome);
-        navigate('/dashboard'); // 3. Redireciona para a rota do mapa/dashboard
+        navigate('/Mapa'); // 3. Redireciona para a rota do mapa/dashboard
       } else {
         alert(data.message || "Erro ao logar");
       }
@@ -63,6 +63,7 @@ function Login() {
             />
           </div>
           <button type="submit" className="btn-entrar">Entrar</button>
+          
         </form>
       </div>
     </div>
