@@ -12,7 +12,7 @@ function Login() {
   e.preventDefault();
 
   try {
-    const response = await fetch('http://localhost:5244/api/Auth/login', {
+    const response = await fetch("http://localhost:5244/api/bairros", {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email, senha }) // Verifique se os nomes batem com seu estado
