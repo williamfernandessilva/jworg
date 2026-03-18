@@ -6,6 +6,7 @@ import Header from '../../components/Header';
 import L from 'leaflet';
 
 function Mapa() {
+  const API_URL = "https://jworg-api-1.onrender.com/api/Bairros";
   const [bairros, setBairros] = useState([]);
   const [novoBairro, setNovoBairro] = useState({ nome: '', lat: '', lng: '' });
   const usuarioLogado = localStorage.getItem("nomeUsuario");
@@ -74,6 +75,8 @@ function Mapa() {
 
   // FUNÇÃO EXCLUIR (Adicionada dentro do componente)
   const excluirBairro = async (id) => {
+
+    
     if (!window.confirm("Tem certeza que deseja excluir este ponto permanentemente?")) return;
 
     try {

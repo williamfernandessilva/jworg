@@ -1,45 +1,47 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom'; // 1. Importe o hook de navegação
+import { useNavigate } from 'react-router-dom';
 import './styles.css';
-import logoImg from "../../assets/logo.png"; // Ajustado para subir as pastas corretamente
+import logoImg from "../../assets/logo.png";
+
+// 1. Defina a URL do Render aqui no topo
+const API_URL = "https://jworg-api-1.onrender.com/api";
 
 function Login() {
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
-  const navigate = useNavigate(); // 2. Inicialize o navigate
+  const navigate = useNavigate();
 
- const handleLogin = async (e) => {
-  e.preventDefault();
+  const handleLogin = async (e) => {
+    e.preventDefault();
 
-  try {
-    const response = await fetch("http://localhost:5244/api/bairros", {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email, senha }) // Verifique se os nomes batem com seu estado
-    });
+    try {
+      // 2. Trocamos o localhost pela API do Render e corrigimos o caminho (endpoint)
+      // Certifique-se que no C# o seu login é "api/usuarios/login"
+      const response = await fetch(`${API_URL}/usuarios/login`, { 
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, senha }) 
+      });
 
-    const data = await response.json();
+      const data = await response.json();
 
-    if (response.ok) {
-      // SALVANDO AS INFORMAÇÕES NO NAVEGADOR
-      localStorage.setItem("nomeUsuario", data.nome);
-      localStorage.setItem("isAdmin", data.isAdmin); // Agora salvamos o nível de acesso
-      
-      alert("Bem-vindo, " + data.nome);
-      navigate('/Mapa');
-    } else {
-      alert(data.message || "Erro ao logar");
+      if (response.ok) {
+        localStorage.setItem("nomeUsuario", data.nome);
+        localStorage.setItem("isAdmin", data.isAdmin);
+        
+        alert("Bem-vindo, " + data.nome);
+        navigate('/Mapa');
+      } else {
+        alert(data.message || "E-mail ou senha incorretos.");
+      }
+
+    } catch (error) {
+      console.error("Erro na conexão:", error);
+      alert("Não foi possível conectar ao servidor no Render.");
     }
+  };
 
-  } catch (error) {
-    // O "CATCH" QUE ESTAVA FALTANDO
-    console.error("Erro na conexão:", error);
-    alert("O servidor está desligado ou houve um erro de rede.");
-  }
-};
-   
   return (
-
     <div className="login-container">
       <div className="login-box">
       <img src={logoImg} alt="JW.ORG" className="logo" />
@@ -64,7 +66,6 @@ function Login() {
             />
           </div>
           <button type="submit" className="btn-entrar">Entrar</button>
-          
         </form>
       </div>
     </div>

@@ -4,6 +4,7 @@ import logoImg from '../../assets/logo.png';
 import './styles.css';
 
 function Header() {
+  const API_URL = "https://jworg-api-1.onrender.com/api/Bairros";
   const navigate = useNavigate();
   
   // Buscamos o nome real que foi salvo no localStorage durante o login
