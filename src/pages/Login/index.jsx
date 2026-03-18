@@ -8,35 +8,35 @@ function Login() {
   const [senha, setSenha] = useState('');
   const navigate = useNavigate(); // 2. Inicialize o navigate
 
-  const handleLogin = async (e) => {
-    e.preventDefault();
+ const handleLogin = async (e) => {
+  e.preventDefault();
 
-    const loginData = {
-      email: email,
-      senha: senha
-    };
+  try {
+    const response = await fetch('http://localhost:5244/api/Auth/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, senha }) // Verifique se os nomes batem com seu estado
+    });
 
-    try {
-      const response = await fetch('http://localhost:5244/api/Auth/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(loginData),
-      });
+    const data = await response.json();
 
-      const data = await response.json();
-
-      if (response.ok) {
-        alert("Bem-vindo, " + data.nome);
-        navigate('/Mapa'); // 3. Redireciona para a rota do mapa/dashboard
-      } else {
-        alert(data.message || "Erro ao logar");
-      }
+    if (response.ok) {
+      // SALVANDO AS INFORMAÇÕES NO NAVEGADOR
       localStorage.setItem("nomeUsuario", data.nome);
-    } catch (error) {
-      console.error("Erro na conexão:", error);
-      alert("O servidor está desligado ou houve um erro de rede.");
+      localStorage.setItem("isAdmin", data.isAdmin); // Agora salvamos o nível de acesso
+      
+      alert("Bem-vindo, " + data.nome);
+      navigate('/Mapa');
+    } else {
+      alert(data.message || "Erro ao logar");
     }
-  };
+
+  } catch (error) {
+    // O "CATCH" QUE ESTAVA FALTANDO
+    console.error("Erro na conexão:", error);
+    alert("O servidor está desligado ou houve um erro de rede.");
+  }
+};
    
   return (
 
