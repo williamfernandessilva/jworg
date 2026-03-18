@@ -17,7 +17,7 @@ function Login() {
     try {
       // 2. Trocamos o localhost pela API do Render e corrigimos o caminho (endpoint)
       // Certifique-se que no C# o seu login é "api/usuarios/login"
-      const response = await fetch(`${API_URL}/usuarios/login`, { 
+      const response = await fetch(`${API_URL}/auth/login`, { 
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, senha }) 
