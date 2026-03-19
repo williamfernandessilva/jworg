@@ -33,15 +33,21 @@ function Mapa() {
   };
 
   const carregarBairros = async () => {
-    try {
-      const response = await fetch('https://jworg-api-1.onrender.com/api/bairros');
-      if (!response.ok) throw new Error("Erro na rede");
-      const data = await response.json();
-      setBairros(data);
-    } catch (error) {
-      console.error("Erro ao carregar:", error);
-    }
-  };
+  try {
+    const response = await fetch('https://jworg-api-1.onrender.com/api/bairros', {
+      method: 'GET',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      }
+    });
+    if (!response.ok) throw new Error("Erro na rede");
+    const data = await response.json();
+    setBairros(data);
+  } catch (error) {
+    console.error("Erro ao carregar:", error);
+  }
+};
 
   const handleCadastrar = async () => {
     if (!novoBairro.nome || !novoBairro.lat || !novoBairro.lng) {
