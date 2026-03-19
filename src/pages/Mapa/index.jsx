@@ -6,7 +6,7 @@ import Header from '../../components/Header';
 import L from 'leaflet';
 
 function Mapa() {
-  const API_URL = "https://jworg-api-1.onrender.com/api/Bairros";
+  const API_URL = "https://jworg-api-1.onrender.com/api/bairros";
   const [bairros, setBairros] = useState([]);
   const [novoBairro, setNovoBairro] = useState({ nome: '', lat: '', lng: '' });
   const usuarioLogado = localStorage.getItem("nomeUsuario");
@@ -34,7 +34,7 @@ function Mapa() {
 
   const carregarBairros = async () => {
     try {
-      const response = await fetch('https://jworg-api.onrender.com/api/Bairros');
+      const response = await fetch('https://jworg-api-1.onrender.com/api/bairros');
       if (!response.ok) throw new Error("Erro na rede");
       const data = await response.json();
       setBairros(data);
@@ -50,7 +50,7 @@ function Mapa() {
     }
 
     try {
-      const response = await fetch('https://jworg-api.onrender.com/api/Bairros', {
+      const response = await fetch('https://jworg-api-1.onrender.com/api/bairros', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -80,7 +80,7 @@ function Mapa() {
     if (!window.confirm("Tem certeza que deseja excluir este ponto permanentemente?")) return;
 
     try {
-      const response = await fetch(`https://jworg-api.onrender.com/api/Bairros/${id}`, {
+      const response = await fetch(`https://jworg-api-1.onrender.com/api/bairros/${id}`, {
         method: 'DELETE'
       });
 
@@ -101,7 +101,7 @@ function Mapa() {
       return;
     }
     try {
-      const response = await fetch(`https://jworg-api.onrender.com/api/Bairros/Reservar/${id}`, {
+      const response = await fetch(`https://jworg-api-1.onrender.com/api/bairros/${id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(usuarioLogado)
@@ -118,7 +118,7 @@ function Mapa() {
   const concluirBairro = async (id) => {
     if (!window.confirm("Deseja marcar como concluído?")) return;
     try {
-      const response = await fetch(`https://jworg-api.onrender.com/api/Bairros/Concluir/${id}`, {
+      const response = await fetch(`https://jworg-api-1.onrender.com/api/bairros/Concluir/${id}`, {
         method: 'PUT'
       });
       if (response.ok) {
