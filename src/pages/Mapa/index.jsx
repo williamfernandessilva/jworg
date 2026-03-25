@@ -198,9 +198,7 @@ function Mapa() {
               {isAdmin && (
   <div className="admin-panel">
     <hr />
-    <h4>Novo Ponto</h4>
-    {/* ... seus inputs de nome, lat, lng ... */}
-    <button onClick={handleCadastrar} className="btn-admin">Adicionar Pin</button>
+    
 
     <hr />
     <h4>Gestão Mensal</h4>
@@ -209,7 +207,7 @@ function Mapa() {
       className="btn-reset"
       
     >
-       Reiniciar bairros (Limpar Vermelhos)
+       Reiniciar bairros 
     </button>
   </div>
 )}
