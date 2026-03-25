@@ -56,16 +56,16 @@ function Mapa() {
     }
 
     try {
-      const response = await fetch('https://jworg-api-1.onrender.com/api/bairros', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          nome: novoBairro.nome,
-          lat: parseFloat(novoBairro.lat),
-          lng: parseFloat(novoBairro.lng),
-          status: "verde"
-        })
-      });
+    const response = await fetch('https://jworg-api-1.onrender.com/api/bairros', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        nome: novoBairro.nome,
+        lat: novoBairro.lat.toString(), // Enviando como Texto para o C# aceitar
+        lng: novoBairro.lng.toString(), // Enviando como Texto para o C# aceitar
+        status: "verde"
+      })
+    });
 
       if (response.ok) {
         alert("Novo território cadastrado!");
@@ -102,24 +102,29 @@ function Mapa() {
   };
 
   const reservarBairro = async (id) => {
-    if (!usuarioLogado) {
-      alert("Erro: Faça login novamente.");
-      return;
+  if (!usuarioLogado) {
+    alert("Erro: Faça login novamente.");
+    return;
+  }
+
+  try {
+    // Adicionamos /Reservar/ na URL para bater com o [HttpPut("Reservar/{id}")] do C#
+    const response = await fetch(`https://jworg-api-1.onrender.com/api/bairros/Reservar/${id}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(usuarioLogado) // Envia "Nome do Usuario"
+    });
+
+    if (response.ok) {
+      alert("Território reservado com sucesso!");
+      carregarBairros(); // Atualiza o balão para amarelo
+    } else {
+      alert("Este território já pode estar ocupado.");
     }
-    try {
-      const response = await fetch(`https://jworg-api-1.onrender.com/api/bairros/${id}`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(usuarioLogado)
-      });
-      if (response.ok) {
-        alert("Território reservado!");
-        carregarBairros();
-      }
-    } catch (error) {
-      console.error("Erro ao reservar:", error);
-    }
-  };
+  } catch (error) {
+    console.error("Erro ao reservar:", error);
+  }
+};
 
   const concluirBairro = async (id) => {
     if (!window.confirm("Deseja marcar como concluído?")) return;
@@ -189,11 +194,11 @@ function Mapa() {
             <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
 
             {bairros.map(bairro => (
-              <Marker
-                key={bairro.id}
-                position={[bairro.lat, bairro.lng]}
-                icon={icons[bairro.status.toLowerCase()] || icons.verde}
-              >
+             <Marker
+  key={bairro.id}
+  position={[parseFloat(bairro.lat), parseFloat(bairro.lng)]}
+  icon={icons[bairro.status?.toLowerCase()] || icons.verde}
+>
                 <Popup>
                   <div className="popup-content">
                     <h3>{bairro.nome}</h3>
