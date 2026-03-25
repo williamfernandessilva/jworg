@@ -33,6 +33,26 @@ function Mapa() {
     vermelho: createIcon('red')
   };
 
+  const handleResetMensal = async () => {
+  if (!window.confirm("Deseja resetar todos os bairros CONCLUÍDOS para DISPONÍVEL? Isso não afeta os que estão 'Em progresso'.")) return;
+
+  try {
+    const response = await fetch(`${API_URL}/ResetMensal`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' }
+    });
+
+    if (response.ok) {
+      alert("Relatório mensal reiniciado com sucesso!");
+      carregarBairros(); // Atualiza o mapa na hora
+    } else {
+      alert("Erro ao resetar bairros.");
+    }
+  } catch (error) {
+    console.error("Erro no reset:", error);
+  }
+};
+
   const carregarBairros = async () => {
     try {
       const response = await fetch(API_URL, {
@@ -174,6 +194,25 @@ function Mapa() {
                 onChange={(e) => setNovoBairro({...novoBairro, lng: e.target.value})}
               />
               <button onClick={handleCadastrar} className="btn-admin">Adicionar</button>
+
+              {isAdmin && (
+  <div className="admin-panel">
+    <hr />
+    <h4>Novo Ponto</h4>
+    {/* ... seus inputs de nome, lat, lng ... */}
+    <button onClick={handleCadastrar} className="btn-admin">Adicionar Pin</button>
+
+    <hr />
+    <h4>Gestão Mensal</h4>
+    <button 
+      onClick={handleResetMensal} 
+      className="btn-reset"
+      
+    >
+       Reiniciar bairros (Limpar Vermelhos)
+    </button>
+  </div>
+)}
             </div>
           )}
         </div>
