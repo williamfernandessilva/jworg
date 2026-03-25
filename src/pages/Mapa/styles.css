@@ -13,6 +13,8 @@
   border-radius: 15px;
   overflow: hidden;
   box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  width: 100%;
+    height: calc(100vh - 60px); 
 }
 button {
 width: 100px;
@@ -100,4 +102,49 @@ border-radius: 7px;
 
 .btn-excluir:hover {
   background-color: #c0392b;
+}
+/* --- Estilo do Botão de 3 Pontinhos --- */
+.btn-menu-mobile {
+  display: none; /* Esconde no PC */
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-color: #2c3e50;
+  color: white;
+  font-size: 24px;
+  border: none;
+  z-index: 1000;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+  cursor: pointer;
+}
+
+/* --- Ajustes para Celular (Media Query) --- */
+@media (max-width: 768px) {
+  .btn-menu-mobile {
+    display: block; /* Mostra apenas no Celular */
+  }
+
+  .map-legend {
+    position: fixed;
+    top: 0;
+    right: -100%; /* Escondido para fora da tela à direita */
+    width: 250px;
+    height: 100%;
+    background: white;
+    z-index: 999;
+    transition: 0.3s;
+    padding: 20px;
+    box-shadow: -2px 0 10px rgba(0,0,0,0.1);
+    overflow-y: auto;
+  }
+
+  /* Quando o menu estiver ativo, ele desliza para dentro */
+  .map-legend.active {
+    right: 0;
+  }
+
+  
 }

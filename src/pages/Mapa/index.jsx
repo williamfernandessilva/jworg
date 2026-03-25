@@ -11,6 +11,7 @@ function Mapa() {
   const [novoBairro, setNovoBairro] = useState({ nome: '', lat: '', lng: '' });
   const usuarioLogado = localStorage.getItem("nomeUsuario");
   const isAdmin = localStorage.getItem("isAdmin") === "true";
+  const [menuAberto, setMenuAberto] = useState(false);
 
   const createIcon = (color) => new L.Icon({
     iconUrl: `https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-${color}.png`,
@@ -33,21 +34,21 @@ function Mapa() {
   };
 
   const carregarBairros = async () => {
-  try {
-    const response = await fetch('https://jworg-api-1.onrender.com/api/bairros', {
-      method: 'GET',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      }
-    });
-    if (!response.ok) throw new Error("Erro na rede");
-    const data = await response.json();
-    setBairros(data);
-  } catch (error) {
-    console.error("Erro ao carregar:", error);
-  }
-};
+    try {
+      const response = await fetch(API_URL, {
+        method: 'GET',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        }
+      });
+      if (!response.ok) throw new Error("Erro na rede");
+      const data = await response.json();
+      setBairros(data);
+    } catch (error) {
+      console.error("Erro ao carregar:", error);
+    }
+  };
 
   const handleCadastrar = async () => {
     if (!novoBairro.nome || !novoBairro.lat || !novoBairro.lng) {
@@ -56,20 +57,21 @@ function Mapa() {
     }
 
     try {
-    const response = await fetch('https://jworg-api-1.onrender.com/api/bairros', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        nome: novoBairro.nome,
-        lat: novoBairro.lat.toString(), // Enviando como Texto para o C# aceitar
-        lng: novoBairro.lng.toString(), // Enviando como Texto para o C# aceitar
-        status: "verde"
-      })
-    });
+      const response = await fetch(API_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          nome: novoBairro.nome,
+          lat: novoBairro.lat.toString(),
+          lng: novoBairro.lng.toString(),
+          status: "verde"
+        })
+      });
 
       if (response.ok) {
         alert("Novo território cadastrado!");
         setNovoBairro({ nome: '', lat: '', lng: '' });
+        setMenuAberto(false); // Fecha o menu lateral automaticamente no celular
         carregarBairros();
       } else {
         alert("Erro ao cadastrar bairro.");
@@ -79,22 +81,13 @@ function Mapa() {
     }
   };
 
-  // FUNÇÃO EXCLUIR (Adicionada dentro do componente)
   const excluirBairro = async (id) => {
-
-    
     if (!window.confirm("Tem certeza que deseja excluir este ponto permanentemente?")) return;
-
     try {
-      const response = await fetch(`https://jworg-api-1.onrender.com/api/bairros/${id}`, {
-        method: 'DELETE'
-      });
-
+      const response = await fetch(`${API_URL}/${id}`, { method: 'DELETE' });
       if (response.ok) {
-        alert("Ponto removido com sucesso!");
+        alert("Ponto removido!");
         carregarBairros();
-      } else {
-        alert("Erro ao excluir o ponto.");
       }
     } catch (error) {
       console.error("Erro ao excluir:", error);
@@ -102,36 +95,29 @@ function Mapa() {
   };
 
   const reservarBairro = async (id) => {
-  if (!usuarioLogado) {
-    alert("Erro: Faça login novamente.");
-    return;
-  }
-
-  try {
-    // Adicionamos /Reservar/ na URL para bater com o [HttpPut("Reservar/{id}")] do C#
-    const response = await fetch(`https://jworg-api-1.onrender.com/api/bairros/Reservar/${id}`, {
-      method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(usuarioLogado) // Envia "Nome do Usuario"
-    });
-
-    if (response.ok) {
-      alert("Território reservado com sucesso!");
-      carregarBairros(); // Atualiza o balão para amarelo
-    } else {
-      alert("Este território já pode estar ocupado.");
+    if (!usuarioLogado) {
+      alert("Erro: Faça login novamente.");
+      return;
     }
-  } catch (error) {
-    console.error("Erro ao reservar:", error);
-  }
-};
+    try {
+      const response = await fetch(`${API_URL}/Reservar/${id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(usuarioLogado)
+      });
+      if (response.ok) {
+        alert("Território reservado!");
+        carregarBairros();
+      }
+    } catch (error) {
+      console.error("Erro ao reservar:", error);
+    }
+  };
 
   const concluirBairro = async (id) => {
     if (!window.confirm("Deseja marcar como concluído?")) return;
     try {
-      const response = await fetch(`https://jworg-api-1.onrender.com/api/bairros/Concluir/${id}`, {
-        method: 'PUT'
-      });
+      const response = await fetch(`${API_URL}/Concluir/${id}`, { method: 'PUT' });
       if (response.ok) {
         alert("Trabalho finalizado!");
         carregarBairros();
@@ -149,7 +135,17 @@ function Mapa() {
     <>
       <Header />
       <div className="mapa-page-container">
-        <div className="map-legend">
+        
+        {/* Botão Flutuante Celular */}
+        <button 
+          className="btn-menu-mobile" 
+          onClick={() => setMenuAberto(!menuAberto)}
+        >
+          {menuAberto ? '✕' : '⋮'}
+        </button>
+
+        {/* Menu Lateral / Legenda */}
+        <div className={`map-legend ${menuAberto ? 'active' : ''}`}>
           <h4>Legenda</h4>
           <div className="legend-item"><span className="dot verde"></span><p><strong>Disponível</strong></p></div>
           <div className="legend-item"><span className="dot amarelo"></span><p><strong>Em progresso</strong></p></div>
@@ -194,11 +190,11 @@ function Mapa() {
             <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
 
             {bairros.map(bairro => (
-             <Marker
-  key={bairro.id}
-  position={[parseFloat(bairro.lat), parseFloat(bairro.lng)]}
-  icon={icons[bairro.status?.toLowerCase()] || icons.verde}
->
+              <Marker
+                key={bairro.id}
+                position={[parseFloat(bairro.lat), parseFloat(bairro.lng)]}
+                icon={icons[bairro.status?.toLowerCase()] || icons.verde}
+              >
                 <Popup>
                   <div className="popup-content">
                     <h3>{bairro.nome}</h3>
@@ -226,14 +222,13 @@ function Mapa() {
                       </div>
                     )}
 
-                    {/* BOTÃO EXCLUIR PARA ADMIN */}
                     {isAdmin && (
                       <button 
                         className="btn-excluir" 
                         onClick={() => excluirBairro(bairro.id)}
                         style={{ backgroundColor: '#e74c3c', color: 'white', border: 'none', padding: '5px', marginTop: '10px', width: '100%', borderRadius: '4px', cursor: 'pointer' }}
                       >
-                Excluir
+                        Excluir
                       </button>
                     )}
                   </div>
