@@ -197,17 +197,17 @@ function Mapa() {
 
               {isAdmin && (
   <div className="admin-panel">
-    <hr />
+
     
 
-    <hr />
+  
     <h4>Gestão Mensal</h4>
     <button 
       onClick={handleResetMensal} 
       className="btn-reset"
       
     >
-       Reiniciar bairros 
+       Resetar bairros 
     </button>
   </div>
 )}
