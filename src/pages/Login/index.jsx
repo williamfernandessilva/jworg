@@ -3,19 +3,19 @@ import { useNavigate } from 'react-router-dom';
 import './styles.css';
 import logoImg from "../../assets/logo.png";
 
-// 1. Defina a URL do Render aqui (certifique-se de que não há barra / no final de 'api')
 const API_URL = "https://jworg-api-1.onrender.com/api";
 
 function Login() {
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
+  const [carregando, setCarregando] = useState(false); // Estado para o Loading
   const navigate = useNavigate();
 
   const handleLogin = async (e) => {
     e.preventDefault();
+    setCarregando(true); // Ativa o carregamento
 
     try {
-      // 2. Enviando apenas e-mail e senha para evitar erro 400 de validação no C#
       const response = await fetch(`${API_URL}/auth/login`, { 
         method: 'POST',
         headers: { 
@@ -25,26 +25,24 @@ function Login() {
         body: JSON.stringify({ email: email, senha: senha }) 
       });
 
-      // 3. Verifica se a resposta foi sucesso antes de tentar transformar em JSON
       if (response.ok) {
         const data = await response.json();
         
-        // Salva os dados no localStorage
         localStorage.setItem("nomeUsuario", data.nome);
         localStorage.setItem("isAdmin", data.isAdmin);
         
         alert("Bem-vindo, " + data.nome);
-        navigate('/mapa'); // Verifique se no seu App.js a rota é '/mapa' ou '/Mapa'
+        navigate('/mapa');
       } else {
-        // Se cair aqui, o servidor respondeu (400, 401, 500 etc)
-        const errorData = await response.json().catch(() => ({ message: "Erro de autenticação" }));
+        const errorData = await response.json().catch(() => ({ message: "E-mail ou senha incorretos." }));
         alert(errorData.message || "E-mail ou senha incorretos.");
       }
 
     } catch (error) {
-      // Se cair aqui, a conexão nem chegou no servidor (CORS ou URL errada)
       console.error("Erro na conexão:", error);
-      alert("Não foi possível conectar ao servidor no Render. Verifique sua internet ou se a API está acordada.");
+      alert("A API no Render está acordando. Por favor, aguarde alguns segundos e tente novamente.");
+    } finally {
+      setCarregando(false); // Desativa o carregamento independente de erro ou sucesso
     }
   };
 
@@ -55,7 +53,8 @@ function Login() {
         <h1>JW . ORG</h1>
         <form onSubmit={handleLogin}>
           <div className="input-group">
-            <input className='email'
+            <input 
+              className='email'
               type="email" 
               placeholder="E-mail" 
               value={email}
@@ -64,7 +63,8 @@ function Login() {
             />
           </div>
           <div className="input-group">
-            <input className='senha'
+            <input 
+              className='senha'
               type="password" 
               placeholder="Senha" 
               value={senha}
@@ -72,7 +72,16 @@ function Login() {
               required 
             />
           </div>
-          <button type="submit" className="btn-entrar">Entrar</button>
+          
+          {/* Botão com feedback de carregamento e desabilitado quando clicado */}
+          <button 
+            type="submit" 
+            className="btn-entrar" 
+            disabled={carregando}
+            style={{ opacity: carregando ? 0.7 : 1, cursor: carregando ? 'not-allowed' : 'pointer' }}
+          >
+            {carregando ? "Conectando..." : "Entrar"}
+          </button>
         </form>
       </div>
     </div>
