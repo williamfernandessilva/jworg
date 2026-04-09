@@ -172,48 +172,42 @@ function Mapa() {
           <div className="legend-item"><span className="dot vermelho"></span><p><strong>Concluído</strong></p></div>
           
           {isAdmin && (
-            <div className="admin-panel">
-              <hr />
-              <h4>Novo Ponto</h4>
-              <input 
-                type="text" 
-                placeholder="Nome do Bairro" 
-                value={novoBairro.nome}
-                onChange={(e) => setNovoBairro({...novoBairro, nome: e.target.value})}
-              />
-              <input 
-                type="number" 
-                placeholder="Latitude" 
-                value={novoBairro.lat}
-                onChange={(e) => setNovoBairro({...novoBairro, lat: e.target.value})}
-              />
-              <input 
-                type="number" 
-                placeholder="Longitude" 
-                value={novoBairro.lng}
-                onChange={(e) => setNovoBairro({...novoBairro, lng: e.target.value})}
-              />
-              <button onClick={handleCadastrar} className="btn-admin">Adicionar</button>
+  <div className="admin-section">
+    <hr />
+    <h4>Novo Ponto</h4>
+    <div className="admin-inputs">
+      <input 
+        type="text" 
+        placeholder="Nome do Bairro" 
+        value={novoBairro.nome}
+        onChange={(e) => setNovoBairro({...novoBairro, nome: e.target.value})}
+      />
+      <div className="input-row">
+        <input 
+          type="number" 
+          placeholder="Lat" 
+          value={novoBairro.lat}
+          onChange={(e) => setNovoBairro({...novoBairro, lat: e.target.value})}
+        />
+        <input 
+          type="number" 
+          placeholder="Lng" 
+          value={novoBairro.lng}
+          onChange={(e) => setNovoBairro({...novoBairro, lng: e.target.value})}
+        />
+      </div>
+      <button onClick={handleCadastrar} className="btn-admin">Adicionar Pin</button>
+    </div>
 
-              {isAdmin && (
-  <div className="admin-panel">
-
-    
-
-  
+  <hr />
     <h4>Gestão Mensal</h4>
-    <button 
-      onClick={handleResetMensal} 
-      className="btn-reset"
-      
-    >
-       Resetar bairros 
+    <button onClick={handleResetMensal} className="btn-reset">
+      🔄 Resetar bairros
     </button>
   </div>
 )}
             </div>
-          )}
-        </div>
+      
 
         <div className="map-wrapper">
           <MapContainer 
