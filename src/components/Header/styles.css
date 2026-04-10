@@ -13,9 +13,9 @@
   width: 100%;
   max-width: 1200px;
   margin: 0 auto;
-  padding: 0 30px; /* Aumenta o respiro nas laterais */
+  padding: 0 30px; 
   display: flex;
-  justify-content: space-between; /* Empurra o logo para a esquerda e o usuário para a direita */
+  justify-content: space-between; 
   align-items: center;
 }
 
@@ -59,7 +59,7 @@
 .user-section {
   display: flex;
   align-items: center;
-  gap: 25px; /* Aumenta o espaço entre o nome e o botão Sair */
+  gap: 25px; 
 }
 
 .btn-logout:hover {

@@ -8,12 +8,12 @@ const API_URL = "https://jworg-api-1.onrender.com/api";
 function Login() {
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
-  const [carregando, setCarregando] = useState(false); // Estado para o Loading
+  const [carregando, setCarregando] = useState(false);
   const navigate = useNavigate();
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    setCarregando(true); // Ativa o carregamento
+    setCarregando(true);
 
     try {
       const response = await fetch(`${API_URL}/auth/login`, { 
@@ -42,7 +42,7 @@ function Login() {
       console.error("Erro na conexão:", error);
       alert("A API no Render está acordando. Por favor, aguarde alguns segundos e tente novamente.");
     } finally {
-      setCarregando(false); // Desativa o carregamento independente de erro ou sucesso
+      setCarregando(false);
     }
   };
 
@@ -73,7 +73,7 @@ function Login() {
             />
           </div>
           
-          {/* Botão com feedback de carregamento e desabilitado quando clicado */}
+          {}
           <button 
             type="submit" 
             className="btn-entrar" 

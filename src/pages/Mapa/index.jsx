@@ -44,7 +44,7 @@ function Mapa() {
 
     if (response.ok) {
       alert("Relatório mensal reiniciado com sucesso!");
-      carregarBairros(); // Atualiza o mapa na hora
+      carregarBairros(); 
     } else {
       alert("Erro ao resetar bairros.");
     }
@@ -91,7 +91,7 @@ function Mapa() {
       if (response.ok) {
         alert("Novo território cadastrado!");
         setNovoBairro({ nome: '', lat: '', lng: '' });
-        setMenuAberto(false); // Fecha o menu lateral automaticamente no celular
+        setMenuAberto(false); 
         carregarBairros();
       } else {
         alert("Erro ao cadastrar bairro.");
@@ -156,7 +156,7 @@ function Mapa() {
       <Header />
       <div className="mapa-page-container">
         
-        {/* Botão Flutuante Celular */}
+        {}
         <button 
           className="btn-menu-mobile" 
           onClick={() => setMenuAberto(!menuAberto)}
@@ -164,7 +164,7 @@ function Mapa() {
           {menuAberto ? '✕' : '⋮'}
         </button>
 
-        {/* Menu Lateral / Legenda */}
+        {/* Menu Lateral para os admiins/ Legenda para usuarios normais*/}
         <div className={`map-legend ${menuAberto ? 'active' : ''}`}>
           <h4>Legenda</h4>
           <div className="legend-item"><span className="dot verde"></span><p><strong>Disponível</strong></p></div>
@@ -202,7 +202,7 @@ function Mapa() {
   <hr />
     <h4>Gestão Mensal</h4>
     <button onClick={handleResetMensal} className="btn-reset">
-      🔄 Resetar bairros
+       Resetar bairros
     </button>
   </div>
 )}

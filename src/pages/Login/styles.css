@@ -13,14 +13,13 @@
   background-color: #ffffff;
 }
 
-/* --- ESTILO PARA PC (Padrão) --- */
+
 .login-box {
   background-color: #1a5f96;
-  padding: 80px; /* Reduzi um pouco de 150px para não ficar exagerado, mas mantive grande */
-  border-radius: 8px;
+  padding: 80px; 
   text-align: center;
   color: white;
-  width: 900px; /* Seu tamanho original */
+  width: 900px; 
   box-shadow: 0 10px 25px rgba(0,0,0,0.1);
 }
 
@@ -41,8 +40,8 @@
 }
 
 .btn-entrar {
-  width: 100%; /* Mudei para 100% do container para facilitar o alinhamento */
-  max-width: 450px; /* Mas ele não passa dos 450px que você definiu */
+  width: 100%; 
+  max-width: 450px; 
   height: 60px;
   background-color: #0d3b66;
   color: white;
@@ -55,30 +54,30 @@
   font-size: 18px;
 }
 
-/* --- AJUSTES APENAS PARA CELULAR (Mobile) --- */
+/*css apenas para o celular Mobile*/
 @media (max-width: 768px) {
   .login-box {
-    width: 90%; /* Ocupa quase a tela toda lateralmente */
-    padding: 40px 20px; /* Padding menor para sobrar espaço para os campos */
-    box-shadow: none; /* Remove a sombra pesada no celular se preferir */
+    width: 90%;
+    padding: 40px 20px; 
+    box-shadow: none; 
   }
 
   .logo {
-    width: 80px; /* Logo um pouco menor no celular */
+    width: 80px; 
   }
 
   h1 {
-    font-size: 24px; /* Título menor para não quebrar linha */
+    font-size: 24px; 
     margin-bottom: 20px;
   }
 
   .btn-entrar {
-    width: 100%; /* No celular o botão ocupa a largura total disponível na box */
+    width: 100%; 
     max-width: 100%;
   }
 
   .input-group input {
-    height: 55px; /* Inputs levemente menores para caber melhor na mão */
-    font-size: 16px; /* Evita que o iOS dê zoom automático ao clicar no input */
+    height: 55px; 
+    font-size: 16px;
   }
 }
